@@ -3,11 +3,12 @@ import { Link } from 'react-router-dom'
 
 //connect function --> use it to get data to particular component -- look at final line in this component
 import { connect } from 'react-redux';
+import { deletePost } from '../../actions/postActions';
 
 function PostsListComponent(props) {
-    const {deletePost} = props;
+    // const {deletePost} = props;
     const handleDeletePost =(id)=>{
-        deletePost(id);
+        props.deletePost(id);
     }
 
     return (
@@ -42,15 +43,17 @@ function PostsListComponent(props) {
     )
 }
 
-// this function to get posts only from state 
+// this function to get posts only from state and send it to props by injecting it to connect function 
 const mapStateToProps = (state)=>{
     return{
         posts:state.posts
     }
 }
+
+//using dipatch in components to make an action and send it to props by injecting it to connect function
 const mapDispatchToProps=(dispatch) =>{
     return {
-        deletePost:(id)=>{dispatch({type:"DELETE_POST", id:id})}
+        deletePost:(id)=>{dispatch(deletePost(id))}
     }
 }
 

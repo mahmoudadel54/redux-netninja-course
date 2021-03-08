@@ -2,15 +2,16 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router';
 
+//actions
+import { deletePost } from '../../actions/postActions';
+
 function PostComponent(props) {
-    // let {id, title, body} = props.post;
-    let { deletePost } = props;
     console.log(props.post);
     let history = useHistory()
     const handleDeletePost =()=>{
-        console.log(deletePost);
-        deletePost(props.post.id)
-        history.push("/posts")
+        console.log(props.deletePost);
+        props.deletePost(props.post.id)
+        history.replace("/posts")
     }
     
     return (
@@ -30,6 +31,8 @@ function PostComponent(props) {
     )
 }
 
+// this function to get posts only from state and send it to props by injecting it to connect function 
+
 const mapStateToProps = (state, ownProps)=>{
     let id = ownProps.match.params.post_id;
     // console.log(state, ownProps);
@@ -38,9 +41,10 @@ const mapStateToProps = (state, ownProps)=>{
     }
 }
 
+//using dipatch in components to make an action and send it to props by injecting it to connect function
 const mapDispatchToProps = (dispatch)=>{
     return{
-        deletePost:(id)=>{dispatch({type:"DELETE_POST", id:id})}
+        deletePost:(id)=>{dispatch(deletePost(id))}
     }
 }
 
